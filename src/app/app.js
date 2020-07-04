@@ -2,6 +2,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import routes from './routes'
 import cors from 'cors'
+import helmet from 'helmet'
 
 import databaseConfig from './configs/database'
 
@@ -21,6 +22,7 @@ class App{
         this.express = express()
         this.express.use(express.json())
         this.express.use(cors())
+        this.express.use(helmet())
     }
 
     database(){
