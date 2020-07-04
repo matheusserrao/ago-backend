@@ -114,7 +114,7 @@ class Daily{
     }
 
     async getAll(){
-        const dailys = await DailyModel.find().then(d => d)
+        const dailys = await DailyModel.find().sort({data: -1}).then(d => d)
 
         const dailysFormmated = dailys.map(d => {
             const { _doc } = d
