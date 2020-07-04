@@ -1,17 +1,26 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import routes from './routes'
+import cors from 'cors'
 
 import databaseConfig from './configs/database'
 
 class App{
 
     constructor(){
-        this.express = express()
-        this.express.use(express.json())
+
+        this.server()
+        
         this.db = ''
         this.database()
         this.routes()
+    }
+
+    server(){
+        
+        this.express = express()
+        this.express.use(express.json())
+        this.express.use(cors())
     }
 
     database(){
