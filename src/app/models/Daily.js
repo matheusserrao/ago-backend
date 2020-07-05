@@ -113,8 +113,35 @@ class Daily{
         return created
     }
 
-    async getAll(){
-        const dailys = await DailyModel.find().sort({data: -1}).then(d => d)
+    async getAll(page = 0, limit = 0){
+
+        const startIndex = (page - 1) * limit
+        const endIndex = page * limit
+
+        const results = { }
+        const countedDocuments = await DailyModel.countDocuments()
+        
+        if (endIndex < countedDocuments){
+
+            results.next = {
+                page: page + 1,
+                limit
+            }
+        }
+
+        if (startIndex > 0){
+            results.previos = {
+                page: page -1,
+                limit
+            }
+        }
+
+        const dailys = await DailyModel
+                                        .find()
+                                        .limit(limit)
+                                        .skip(startIndex)
+                                        .sort({data: -1})
+                                        .then(d => d)
 
         const dailysFormmated = dailys.map(d => {
             const { _doc } = d
@@ -122,7 +149,9 @@ class Daily{
             return {..._doc, dataFormmated: formmated}
         })
 
-        return dailysFormmated
+        results.results = dailysFormmated
+
+        return results
     }
 
     async delete(id){
