@@ -20,10 +20,10 @@ class DailyController{
 
     async getAll(req, res){
 
-        const page = parseInt(req.query.page)
-        const limit = parseInt(req.query.limit)
+       // const page = parseInt(req.query.page)
+       // const limit = parseInt(req.query.limit)
 
-        return await Daily.getAll(page, limit).then(dailys => {
+        return await Daily.getAll().then(dailys => {
             return res.status(200).json(dailys || [])
 
         }).catch(error => {

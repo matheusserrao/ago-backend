@@ -113,8 +113,10 @@ class Daily{
         return created
     }
 
-    async getAll(page = 0, limit = 0){
+    async getAll(){
 
+        /*
+        parametros: (page = 0, limit = 0
         const startIndex = (page - 1) * limit
         const endIndex = page * limit
 
@@ -141,7 +143,9 @@ class Daily{
                                         .limit(limit)
                                         .skip(startIndex)
                                         .sort({data: -1})
-                                        .then(d => d)
+                                        .then(d => d)*/
+
+        const dailys = await DailyModel.find()
 
         const dailysFormmated = dailys.map(d => {
             const { _doc } = d
@@ -149,9 +153,10 @@ class Daily{
             return {..._doc, dataFormmated: formmated}
         })
 
-        results.results = dailysFormmated
+        //results.results = dailysFormmated
+        //return results
 
-        return results
+        return dailysFormmated
     }
 
     async delete(id){
