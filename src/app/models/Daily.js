@@ -113,6 +113,22 @@ class Daily{
         return created
     }
 
+    async getByDate(startDate, endDate){
+
+        const startDateMoment = moment.utc(startDate, 'DD/MM/YYYY').startOf('day')
+        const endDateMoment = moment.utc(endDate, 'DD/MM/YYYY').endOf('day')
+
+        const dailys = await DailyModel.find({data: {$gte: startDateMoment, $lte: endDateMoment}}).sort({data: -1})
+
+        const dailysFormmated = dailys.map(d => {
+            const { _doc } = d
+            const formmated = moment.utc(_doc.data).format('DD/MM/YYYY')
+            return {..._doc, dataFormmated: formmated}
+        })
+
+        return dailysFormmated
+    }
+
     async getAll(){
 
         /*

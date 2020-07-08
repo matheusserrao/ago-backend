@@ -22,13 +22,16 @@ class DailyController{
         // const page = parseInt(req.query.page)
         // const limit = parseInt(req.query.limit)
 
-        return await Daily.getAll().then(dailys => {
+        const { startDate, endDate } = req.query
+
+        return await Daily.getByDate(startDate, endDate).then(dailys => {
             return res.status(200).json(dailys || [])
 
         }).catch(error => {
             console.log(error)
             return res.status(500).json([])
         })
+
     }
 
     async delete (req, res ){
